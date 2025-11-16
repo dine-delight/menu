@@ -7611,6 +7611,16 @@ const menuDataHiked = {
 
       // Initialize page based on URL
       function initializePage() {
+        // Check for hike parameter FIRST before clearing URL
+        const hasHike = window.location.pathname.includes("hike") || 
+                       window.location.search.includes("hike") || 
+                       window.location.hash.includes("hike");
+        
+        // Store hike state in sessionStorage so it persists
+        if (hasHike) {
+          sessionStorage.setItem("hikeMenu", "true");
+        }
+
         // Check URL for admin or delivery parameters (query params, hash, or pathname)
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = window.location.pathname.includes("admin") || 
@@ -7671,7 +7681,7 @@ const menuDataHiked = {
                                 🍽️ Dine-In
                             </button>
                             <button class="splash-option-btn" onclick="selectOrderType('take-away')">
-                                🚚 Take-Away
+                                🛵 Take-Away
                             </button>
                         </div>
                     </div>
@@ -7921,10 +7931,11 @@ const menuDataHiked = {
         if (!contentContainer) return;
 
         var categories = Object.keys(menuData);
-        // Check for hike in pathname, search params, or hash
+        // Check for hike in pathname, search params, hash, or sessionStorage
         var hike = window.location.pathname.includes("hike") || 
                    window.location.search.includes("hike") || 
-                   window.location.hash.includes("hike");
+                   window.location.hash.includes("hike") ||
+                   sessionStorage.getItem("hikeMenu") === "true";
         if(hike)
           categories = Object.keys(menuDataHiked);
 
@@ -8684,10 +8695,11 @@ const menuDataHiked = {
         // Find featured items from menuData
         const featuredItems = [];
         
-        // Check for hike in pathname, search params, or hash
+        // Check for hike in pathname, search params, hash, or sessionStorage
         var hike = window.location.pathname.includes("hike") || 
                    window.location.search.includes("hike") || 
-                   window.location.hash.includes("hike");
+                   window.location.hash.includes("hike") ||
+                   sessionStorage.getItem("hikeMenu") === "true";
         const currentMenuData = hike ? menuDataHiked : menuData;
 
         if (!currentMenuData) return;
@@ -8857,10 +8869,11 @@ const menuDataHiked = {
       }
 
       function addFeaturedToCart(itemId, category) {
-        // Check for hike in pathname, search params, or hash
+        // Check for hike in pathname, search params, hash, or sessionStorage
         var hike = window.location.pathname.includes("hike") || 
                    window.location.search.includes("hike") || 
-                   window.location.hash.includes("hike");
+                   window.location.hash.includes("hike") ||
+                   sessionStorage.getItem("hikeMenu") === "true";
         const currentMenuData = hike ? menuDataHiked : menuData;
 
         if (!currentMenuData) return;
@@ -9222,7 +9235,7 @@ const menuDataHiked = {
         app.innerHTML = `
                 <div class="delivery-container">
                     <div class="delivery-header">
-                        <h1>🚚 Dine Delight Delivery Partner Dashboard</h1>
+                        <h1>🛵 Dine Delight Delivery Partner Dashboard</h1>
                         <p>Manage take-away orders and deliveries</p>
                         <div style="margin-top: 15px;">
                             <a href="?" style="color: white; text-decoration: underline; margin-right: 20px; display: inline-block;">← Back to Menu</a>
@@ -9425,7 +9438,7 @@ const menuDataHiked = {
           });
 
           const orderTypeTag = order.orderType === "take-away" 
-            ? '<span class="order-type-tag order-type-takeaway">🚚 Take-Away</span>'
+            ? '<span class="order-type-tag order-type-takeaway">🛵 Take-Away</span>'
             : '<span class="order-type-tag order-type-dinein">🍽️ Dine-In</span>';
           
           const orderTitle = order.orderType === "take-away" 
