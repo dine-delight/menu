@@ -945,7 +945,8 @@
       .cart-float {
         position: fixed;
         bottom: 30px;
-        right: 30px;
+        left: 50%;
+        transform: translateX(-50%);
         background: #000;
         color: white;
         padding: 15px 25px;
@@ -959,7 +960,7 @@
       }
 
       .cart-float:hover {
-        transform: scale(1.05);
+        transform: translateX(-50%) scale(1.05);
         background: #333;
       }
 
@@ -1775,9 +1776,14 @@
 
         .cart-float {
           bottom: 20px;
-          right: 28%;
+          left: 50%;
+          transform: translateX(-50%);
           padding: 12px 20px;
           font-size: 1em;
+        }
+        
+        .cart-float:hover {
+          transform: translateX(-50%) scale(1.05);
         }
 
         .footer {
