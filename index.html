@@ -382,46 +382,93 @@
 
       .category-nav {
         display: flex;
-        justify-content: center;
-        gap: 5px;
+        gap: 20px;
         padding: 20px;
         background: white;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: #ccc transparent;
+      }
+
+      .category-nav::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      .category-nav::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .category-nav::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 3px;
+      }
+
+      .category-nav::-webkit-scrollbar-thumb:hover {
+        background: #999;
       }
 
       .category-btn {
-        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
         background: transparent;
         border: none;
-        border-radius: 8px;
+        border-radius: 12px;
         cursor: pointer;
-        font-size: 0.95em;
-        color: #666;
         transition: all 0.3s ease;
-        font-weight: 600;
-        white-space: nowrap;
+        min-width: 80px;
+        flex-shrink: 0;
         position: relative;
       }
 
-      .category-btn:hover {
+      .category-btn-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .category-btn-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .category-btn-label {
+        font-size: 0.85em;
+        color: #666;
+        font-weight: 600;
+        text-align: center;
+        white-space: nowrap;
+        transition: color 0.3s ease;
+      }
+
+      .category-btn:hover .category-btn-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .category-btn:hover .category-btn-label {
         color: #000;
       }
 
-      .category-btn.active {
-        color: #000;
-        background: #f0f0f0;
+      .category-btn.active .category-btn-icon {
+        box-shadow: 0 4px 12px rgba(56, 142, 60, 0.3);
+        border: 3px solid #388e3c;
       }
 
-      .category-btn.active::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: #000;
-        border-radius: 3px 3px 0 0;
+      .category-btn.active .category-btn-label {
+        color: #388e3c;
+        font-weight: 700;
       }
 
       .search-container {
@@ -1725,12 +1772,22 @@
         }
 
         .category-nav {
-          padding: 20px;
+          padding: 15px;
+          gap: 15px;
         }
 
         .category-btn {
-          padding: 10px 20px;
-          font-size: 0.9em;
+          min-width: 70px;
+          padding: 8px;
+        }
+
+        .category-btn-icon {
+          width: 60px;
+          height: 60px;
+        }
+
+        .category-btn-label {
+          font-size: 0.75em;
         }
 
         .menu-content {
@@ -2745,7 +2802,7 @@
       {
         "id": "sd_lollypop_masala",
         "name": "Lollypop Masala",
-        "price": 0,
+        "price": 140,
         "quantityOptions": [
           {
             "label": "Chicken Half",
@@ -3987,47 +4044,63 @@
       {
         "id": "rice_steam",
         "name": "Steam",
-        "price": 0,
+        "price": 80,
         "quantityOptions": [
           {
-            "label": "Chicken Bone",
-            "price": "₹80/₹140"
+            "label": "Half",
+            "price": "₹80"
+          },
+          {
+            "label": "Full",
+            "price": "₹140"
           }
         ]
       },
       {
         "id": "rice_zeera",
         "name": "Zeera",
-        "price": 0,
+        "price": 80,
         "quantityOptions": [
+        {
+            "label": "Half",
+            "price": "₹80"
+          },
           {
-            "label": "Chicken Bone",
-            "price": "₹80/₹140"
+            "label": "Full",
+            "price": "₹140"
           }
         ]
       },
       {
         "id": "rice_egg",
         "name": "Egg",
-        "price": 0,
+        "price": 80,
         "quantityOptions": [
+        {
+            "label": "Half",
+            "price": "₹80"
+          },
           {
-            "label": "Chicken Bone",
-            "price": "₹80/₹140"
+            "label": "Full",
+            "price": "₹140"
           }
         ]
       },
       {
         "id": "rice_fried",
         "name": "Fried",
-        "price": 0,
+        "price": 110,
         "quantityOptions": [
-          {
-            "label": "Chicken Bone",
-            "price": "₹110/₹180"
+        {
+            "label": "Half Chicken",
+            "price": "₹110"
           },
           {
-            "label": "Veg",
+            "label": "Full Chicken",
+            "price": "₹180"
+          },
+          {
+            "label": "Half Veg",
             "price": "₹80/₹140"
           },
           {
@@ -7984,25 +8057,91 @@ const menuDataHiked = {
         if(hike)
           categories = Object.keys(menuDataHiked);
 
+        // Function to get category image based on category key
+        function getCategoryImage(categoryKey) {
+          const categoryLower = categoryKey.toLowerCase();
+          const imageMap = {
+            "soups": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop",
+            "tandoori_chicken": "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=400&fit=crop",
+            "special_kabab": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=400&fit=crop",
+            "chinese_starter": "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&h=400&fit=crop",
+            "indian_starter": "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=400&fit=crop",
+            "special_dishes_main_course": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop",
+            "mughlai_khazana": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop",
+            "rice": "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=400&h=400&fit=crop",
+            "biryani": "https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?w=400&h=400&fit=crop",
+            "noodles": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop",
+            "time_pass": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop",
+            "roti": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=400&fit=crop",
+            "dal": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop",
+            "dessert": "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400&h=400&fit=crop"
+          };
+          
+          // Try exact match first
+          if (imageMap[categoryKey]) {
+            return imageMap[categoryKey];
+          }
+          
+          // Try partial match
+          for (const [key, image] of Object.entries(imageMap)) {
+            if (categoryLower.includes(key) || key.includes(categoryLower)) {
+              return image;
+            }
+          }
+          
+          // Default food image
+          return "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop";
+        }
+
         // Add Home tab first
         const homeBtn = document.createElement("button");
         homeBtn.className = "category-btn active";
-        homeBtn.textContent = "Home";
+        const homeIcon = document.createElement("div");
+        homeIcon.className = "category-btn-icon";
+        const homeImg = document.createElement("img");
+        homeImg.src = "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=400&h=400&fit=crop";
+        homeImg.alt = "Home";
+        homeImg.onerror = function() {
+          this.src = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop";
+        };
+        homeIcon.appendChild(homeImg);
+        const homeLabel = document.createElement("div");
+        homeLabel.className = "category-btn-label";
+        homeLabel.textContent = "Home";
+        homeBtn.appendChild(homeIcon);
+        homeBtn.appendChild(homeLabel);
         homeBtn.onclick = (e) => {
-          showHome(e.target);
+          showHome(e.target.closest(".category-btn"));
         };
         navContainer.appendChild(homeBtn);
 
         categories.forEach((category, index) => {
           const btn = document.createElement("button");
           btn.className = "category-btn";
-          btn.textContent = hike ? menuDataHiked[category].title : menuData[category].title;
+          
+          const icon = document.createElement("div");
+          icon.className = "category-btn-icon";
+          const img = document.createElement("img");
+          img.src = getCategoryImage(category);
+          img.alt = hike ? menuDataHiked[category].title : menuData[category].title;
+          img.onerror = function() {
+            this.src = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop";
+          };
+          icon.appendChild(img);
+          
+          const label = document.createElement("div");
+          label.className = "category-btn-label";
+          label.textContent = hike ? menuDataHiked[category].title : menuData[category].title;
+          
+          btn.appendChild(icon);
+          btn.appendChild(label);
+          
           btn.onclick = (e) => {
             const cards = document.getElementById("categoryCards");
             const sections = document.getElementById("categorySections");
             if (cards) cards.style.display = "none";
             if (sections) sections.style.display = "block";
-            showCategory(category, e.target);
+            showCategory(category, e.target.closest(".category-btn"));
           };
           navContainer.appendChild(btn);
         });
