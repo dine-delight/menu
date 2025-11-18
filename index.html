@@ -1836,7 +1836,7 @@
           left: 50%;
           transform: translateX(-50%);
           padding: 12px 20px;
-          font-size: 1em;
+          font-size: 0.9em;
         }
         
         .cart-float:hover {
@@ -7882,7 +7882,7 @@ const menuDataHiked = {
                 </div>
 
                 <div class="cart-float" id="cartButton" onclick="openCart()">
-                    🍽️ Orders <span class="cart-badge" id="cartBadge">0</span>
+                    🍽️ Orders <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
                 </div>
 
                 <div class="modal" id="cartModal">
@@ -8966,7 +8966,7 @@ const menuDataHiked = {
                 <div class="featured-item-name">${item.name}</div>
                 <div class="featured-item-description">${description}</div>
                 <div class="featured-item-price">${priceDisplay}</div>
-                <button class="featured-item-btn" onclick="event.stopPropagation(); addFeaturedToCart('${item.id}', '${item.category}')">Add to Order</button>
+                <button class="featured-item-btn" onclick="event.stopPropagation(); scrollToMenuItem('${item.id}', '${item.category}')">View More</button>
               </div>
             </div>
           `;
@@ -9201,6 +9201,8 @@ const menuDataHiked = {
           );
           const badge = document.getElementById("cartBadge");
           if (badge) {
+            if(totalItems != 0)
+              badge.style.display = "inline-block";
             badge.textContent = totalItems;
           }
         } catch (error) {
