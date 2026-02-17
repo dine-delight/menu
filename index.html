@@ -7718,6 +7718,7 @@ const menuDataHiked = {
             "mughlai_khazana": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop",
             "rice": "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=400&h=400&fit=crop",
             "biryani": "https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?w=400&h=400&fit=crop",
+            "haleem":"./Haleem.jpeg",
             "noodles": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop",
             "time_pass": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop",
             "roti": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=400&fit=crop",
@@ -7899,6 +7900,9 @@ const menuDataHiked = {
             "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=400&fit=crop", // Hyderabadi biryani
             "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop" // Vegetable biryani
           ],
+          haleem: [
+            "./Haleem.jpeg", // Haleem
+          ],
           rice: [
             "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop", // Steamed rice
             "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=400&fit=crop", // Fried rice
@@ -7965,6 +7969,9 @@ const menuDataHiked = {
           if (itemId.startsWith("biryani_")) {
             return getUniqueImageForItem(itemId, imagePools.biryani);
           }
+          if (itemId.startsWith("haleem_")) {
+            return getUniqueImageForItem(itemId, imagePools.haleem);
+          }
           if (itemId.startsWith("rice_")) {
             return getUniqueImageForItem(itemId, imagePools.rice);
           }
@@ -8025,6 +8032,7 @@ const menuDataHiked = {
           
           // Biryani/Rice - using biryani/rice images
           "biryani": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop",
+          "haleem": "./Haleem.jpeg",
           "pulao": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop",
           "fried rice": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop",
           
@@ -8066,6 +8074,9 @@ const menuDataHiked = {
         }
         if (cat.includes("biryani") || itemId.startsWith("biryani_")) {
           return getImageFromPool(imagePools.biryani, itemId || name);
+        }
+        if (cat.includes("haleem") || itemId.startsWith("haleem_")) {
+          return getImageFromPool(imagePools.haleem, itemId || name);
         }
         if ((cat.includes("rice") && !cat.includes("biryani")) || itemId.startsWith("rice_")) {
           return getImageFromPool(imagePools.rice, itemId || name);
@@ -8535,16 +8546,6 @@ const menuDataHiked = {
 
         if (!currentMenuData) return;
 
-        // Find Hyderabadi Special Biryani
-        if (currentMenuData.biryani && currentMenuData.biryani.items) {
-          const biryaniItem = currentMenuData.biryani.items.find(item => 
-            item.id === "biryani_standard" || item.name.toLowerCase().includes("hyderabadi")
-          );
-          if (biryaniItem) {
-            featuredItems.push({...biryaniItem, category: "biryani"});
-          }
-        }
-
         if (currentMenuData.haleem && currentMenuData.haleem.items) {
           const haleemItem = currentMenuData.haleem.items.find(item => 
             item.id === "haleem_standard" || item.name.toLowerCase().includes("haleem")
@@ -8553,6 +8554,7 @@ const menuDataHiked = {
             featuredItems.push({...haleemItem, category: "haleem"});
           }
         }
+
 
         // Find DD Special Kunafa - explicitly search for dess_dd_special_kunafa
         // Try both "dessert" (singular) and "desserts" (plural) to handle different data structures
@@ -8579,6 +8581,16 @@ const menuDataHiked = {
           
           if (kunafaItem) {
             featuredItems.push({...kunafaItem, category: "dessert"});
+          }
+        }
+
+        // Find Hyderabadi Special Biryani
+        if (currentMenuData.biryani && currentMenuData.biryani.items) {
+          const biryaniItem = currentMenuData.biryani.items.find(item => 
+            item.id === "biryani_standard" || item.name.toLowerCase().includes("hyderabadi")
+          );
+          if (biryaniItem) {
+            featuredItems.push({...biryaniItem, category: "biryani"});
           }
         }
 
