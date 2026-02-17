@@ -4097,6 +4097,16 @@
       }
     ]
   },
+  "haleem": {
+    "title": "Haleem",
+    "items": [
+      {
+        "id": "haleem_standard",
+        "name": "Haleem",
+        "price": 150
+      }
+    ]
+  },
   "noodles": {
     "title": "Noodles",
     "items": [
@@ -8532,6 +8542,15 @@ const menuDataHiked = {
           );
           if (biryaniItem) {
             featuredItems.push({...biryaniItem, category: "biryani"});
+          }
+        }
+
+        if (currentMenuData.haleem && currentMenuData.haleem.items) {
+          const haleemItem = currentMenuData.haleem.items.find(item => 
+            item.id === "haleem_standard" || item.name.toLowerCase().includes("haleem")
+          );
+          if (haleemItem) {
+            featuredItems.push({...haleemItem, category: "haleem"});
           }
         }
 
